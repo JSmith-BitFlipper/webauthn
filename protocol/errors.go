@@ -69,7 +69,7 @@ var (
 )
 
 func (err *Error) Error() string {
-	return err.Details
+	return err.Details + "\n" + err.DevInfo
 }
 
 func (passedError *Error) WithDetails(details string) *Error {

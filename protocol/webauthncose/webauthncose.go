@@ -96,6 +96,11 @@ func (k *EC2PublicKeyData) Verify(data []byte, sig []byte) (bool, error) {
 	if err != nil {
 		return false, ErrSigNotProvidedOrInvalid
 	}
+
+	// ADDED
+	// fmt.Printf("X: 0x%x Y: 0x%x\n", pubkey.X, pubkey.Y)
+	// fmt.Printf("R: 0x%x S: 0x%x\n", e.R, e.S)
+
 	return ecdsa.Verify(pubkey, h.Sum(nil), e.R, e.S), nil
 }
 
@@ -171,6 +176,10 @@ func ParsePublicKey(keyBytes []byte) (interface{}, error) {
 		var e EC2PublicKeyData
 		cbor.Unmarshal(keyBytes, &e)
 		e.PublicKeyData = pk
+
+		// ADDED
+		// fmt.Printf("MINI JEANS %+v\n", e)
+
 		return e, nil
 	case RSAKey:
 		var r RSAPublicKeyData
@@ -372,7 +381,7 @@ var (
 		Details: "Unsupported public key algorithm",
 	}
 	ErrSigNotProvidedOrInvalid = &Error{
-		Type: "signature_not_provided_or_invalid",
+		Type:    "signature_not_provided_or_invalid",
 		Details: "Signature invalid or not provided",
 	}
 )
