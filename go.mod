@@ -1,3 +1,3 @@
-module github.com/duo-labs/webauthn
+module webauthn
 
 go 1.14

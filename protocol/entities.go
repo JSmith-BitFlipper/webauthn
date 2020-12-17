@@ -45,6 +45,4 @@ type UserEntity struct {
 	// member, not the displayName nor name members. See Section 6.1 of
 	// [RFC8266](https://www.w3.org/TR/webauthn/#biblio-rfc8266).
 	ID []byte `json:"id"`
-
-	ADDED_extra_user_info string `json:"ADDED_extra_user_info"`
 }
