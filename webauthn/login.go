@@ -94,8 +94,8 @@ func WithAssertionExtensions(extensions protocol.AuthenticationExtensions) Login
 }
 
 // Take the response from the client and validate it against the user credentials and stored session data
-func (webauthn *WebAuthn) FinishLogin(user User, session SessionData, extensionsVerifier protocol.ExtensionsVerifier, response *http.Request) (*Credential, error) {
-	parsedResponse, err := protocol.ParseCredentialRequestResponse(response)
+func (webauthn *WebAuthn) FinishLogin(user User, session SessionData, extensionsVerifier protocol.ExtensionsVerifier, response string) (*Credential, error) {
+	parsedResponse, err := protocol.ParseCredentialStringResponse(response)
 	if err != nil {
 		return nil, err
 	}
@@ -104,8 +104,8 @@ func (webauthn *WebAuthn) FinishLogin(user User, session SessionData, extensions
 }
 
 // Take the response from the client and validate it against the user credentials and stored session data
-func (webauthn *WebAuthn) FinishLogin_StringResponse(user User, session SessionData, extensionsVerifier protocol.ExtensionsVerifier, response string) (*Credential, error) {
-	parsedResponse, err := protocol.ParseCredentialStringResponse(response)
+func (webauthn *WebAuthn) FinishLogin_HTTPRequest(user User, session SessionData, extensionsVerifier protocol.ExtensionsVerifier, response *http.Request) (*Credential, error) {
+	parsedResponse, err := protocol.ParseCredentialRequestResponse(response)
 	if err != nil {
 		return nil, err
 	}
