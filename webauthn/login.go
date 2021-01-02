@@ -103,6 +103,16 @@ func (webauthn *WebAuthn) FinishLogin(user User, session SessionData, extensions
 	return webauthn.ValidateLogin(user, session, extensionsVerifier, parsedResponse)
 }
 
+// Take the response from the client and validate it against the user credentials and stored session data
+func (webauthn *WebAuthn) FinishLogin_StringResponse(user User, session SessionData, extensionsVerifier protocol.ExtensionsVerifier, response string) (*Credential, error) {
+	parsedResponse, err := protocol.ParseCredentialStringResponse(response)
+	if err != nil {
+		return nil, err
+	}
+
+	return webauthn.ValidateLogin(user, session, extensionsVerifier, parsedResponse)
+}
+
 // ValidateLogin takes a parsed response and validates it against the user credentials and session data
 func (webauthn *WebAuthn) ValidateLogin(user User, session SessionData, extensionsVerifier protocol.ExtensionsVerifier, parsedResponse *protocol.ParsedCredentialAssertionData) (*Credential, error) {
 	if !bytes.Equal(user.WebAuthnID(), session.UserID) {
