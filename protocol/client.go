@@ -92,9 +92,8 @@ func (c *CollectedClientData) Verify(
 	if storedClientExtensions != nil && extensionsVerifier != nil {
 		// TODO: What is the result of this if `c` does not contain a `ClientExtensions`
 		clientExtensions := c.ClientExtensions
-		if !(*extensionsVerifier)(*storedClientExtensions, clientExtensions) {
-			err := ErrVerification.WithDetails("Error validating client extensions")
-			return err.WithInfo(fmt.Sprintf("Expected Value: %+v\nReceived Value: %+v\n", storedClientExtensions, clientExtensions))
+		if err := (*extensionsVerifier)(*storedClientExtensions, clientExtensions); err != nil {
+			return err
 		}
 	}
 
