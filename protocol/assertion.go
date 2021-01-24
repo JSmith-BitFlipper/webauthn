@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"webauthn/protocol/webauthncose"
 )
@@ -52,6 +53,10 @@ func ParseCredentialRequestResponse(response *http.Request) (*ParsedCredentialAs
 		return nil, ErrBadRequest.WithDetails("No response given")
 	}
 	return ParseCredentialRequestResponseBody(response.Body)
+}
+
+func ParseCredentialStringResponse(response string) (*ParsedCredentialAssertionData, error) {
+	return ParseCredentialRequestResponseBody(strings.NewReader(response))
 }
 
 // Parse the credential request response into a format that is either required by the specification
