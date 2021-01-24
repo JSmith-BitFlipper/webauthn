@@ -104,7 +104,18 @@ func WithExtensions(extension protocol.AuthenticationExtensions) RegistrationOpt
 
 // Take the response from the authenticator and client and verify the credential against the user's credentials and
 // session data.
-func (webauthn *WebAuthn) FinishRegistration(user User, session SessionData, response *http.Request) (*Credential, error) {
+func (webauthn *WebAuthn) FinishRegistration(user User, session SessionData, response string) (*Credential, error) {
+	parsedResponse, err := protocol.ParseCredentialCreationStringResponse(response)
+	if err != nil {
+		return nil, err
+	}
+
+	return webauthn.CreateCredential(user, session, parsedResponse)
+}
+
+// Take the response from the authenticator and client and verify the credential against the user's credentials and
+// session data.
+func (webauthn *WebAuthn) FinishRegistration_HTTPRequest(user User, session SessionData, response *http.Request) (*Credential, error) {
 	parsedResponse, err := protocol.ParseCredentialCreationResponse(response)
 	if err != nil {
 		return nil, err

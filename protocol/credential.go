@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // The basic credential type that is inherited by WebAuthn's
@@ -58,6 +59,10 @@ func ParseCredentialCreationResponse(response *http.Request) (*ParsedCredentialC
 		return nil, ErrBadRequest.WithDetails("No response given")
 	}
 	return ParseCredentialCreationResponseBody(response.Body)
+}
+
+func ParseCredentialCreationStringResponse(response string) (*ParsedCredentialCreationData, error) {
+	return ParseCredentialCreationResponseBody(strings.NewReader(response))
 }
 
 func ParseCredentialCreationResponseBody(body io.Reader) (*ParsedCredentialCreationData, error) {
